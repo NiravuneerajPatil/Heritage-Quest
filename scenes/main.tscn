@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://8ryjvt2q51h4" path="res://assets/images/player/Idle.png" id="7_jkv2x"]
 [ext_resource type="Texture2D" uid="uid://vlgakr52euoc" path="res://assets/images/player/Jump.png" id="8_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://bsesl5044utic" path="res://assets/images/player/Run.png" id="9_muem4"]
-[ext_resource type="Texture2D" uid="uid://buc8gnmfgjeh4" path="res://icon.svg" id="11_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://cc8h4617c3cu5" path="res://assets/images/player/grass.png" id="11_ya4ey"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yaehf"]
 atlas = ExtResource("2_choun")
@@ -179,7 +179,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_82xsv")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"Attack",
 "speed": 4.0
 }, {
@@ -196,8 +196,8 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1u8w0")
 }],
-"loop": 1,
-"name": &"Attack 2",
+"loop": 0,
+"name": &"Attack2",
 "speed": 5.0
 }, {
 "frames": [{
@@ -325,13 +325,16 @@ animations = [{
 size = Vector2(51, 124)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_14cdr"]
-size = Vector2(128, 128)
+size = Vector2(1151, 113)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pj0hq"]
+size = Vector2(4, 878)
 
 [node name="main" type="Node2D" unique_id=77870391]
 script = ExtResource("1_85g3d")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1145963397]
-position = Vector2(41, 425)
+position = Vector2(47, 448)
 script = ExtResource("2_ya4ey")
 metadata/_edit_group_ = true
 
@@ -340,21 +343,36 @@ texture_filter = 1
 position = Vector2(18, -4)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_htemk")
-animation = &"Run"
+animation = &"Attack2"
 autoplay = "Idle"
-frame_progress = 0.021040048
+frame_progress = 0.11717921
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1065994098]
 position = Vector2(9.5, 19)
 shape = SubResource("RectangleShape2D_htemk")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=981935449]
-position = Vector2(73, 574)
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1725224154]
-texture = ExtResource("11_eb6dy")
+position = Vector2(69, 606)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=151015516]
-position = Vector2(0, 1)
+position = Vector2(506.5, -14.5)
 shape = SubResource("RectangleShape2D_14cdr")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1725224154]
+texture_repeat = 2
+position = Vector2(506.99997, -14.249988)
+scale = Vector2(36, 4.847826)
+texture = ExtResource("11_ya4ey")
+
+[node name="LeftBorder" type="StaticBody2D" parent="." unique_id=774501761]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBorder" unique_id=2022397450]
+position = Vector2(3, 367)
+shape = SubResource("RectangleShape2D_pj0hq")
+
+[node name="RightBorder2" type="StaticBody2D" parent="." unique_id=637962482]
+position = Vector2(1146, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBorder2" unique_id=1103716981]
+position = Vector2(3, 367)
+shape = SubResource("RectangleShape2D_pj0hq")
