@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Heritage Quest - Hero 32x32 Character Preview</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --accent: #f59e0b;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+  }
+  body {
+    margin: 0;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  h1 {
+    color: var(--accent);
+    margin: 0 0 8px 0;
+  }
+  .subtitle {
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .preview-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #334155;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .canvas-box {
+    background: #182234;
+    border: 2px solid #475569;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: 
+      linear-gradient(45deg, #131b2a 25%, transparent 25%), 
+      linear-gradient(-45deg, #131b2a 25%, transparent 25%), 
+      linear-gradient(45deg, transparent 75%, #131b2a 75%), 
+      linear-gradient(-45deg, transparent 75%, #131b2a 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  }
+  canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  .controls {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  button {
+    background: #334155;
+    border: 1px solid #64748b;
+    color: #f8fafc;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
+  button:hover {
+    background: #475569;
+  }
+  button.active {
+    background: var(--accent);
+    color: #0f172a;
+    border-color: #fbbf24;
+    font-weight: bold;
+  }
+  .info-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #0284c7;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+  .master-sheet-view {
+    margin-top: 32px;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #334155;
+  }
+  .master-sheet-view img {
+    image-rendering: pixelated;
+    width: 512px;
+    border: 1px solid #475569;
+    border-radius: 4px;
+    margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Heritage Quest - Hero 32x32 Character Preview</h1>
+<p class="subtitle">Indian Ethnicity &bull; Authentic Golden Yellow Kurta &bull; Pleated White Dhoti &bull; Crimson Sash &bull; Curved Talwar</p>
+
+<div class="container">
+  <div class="preview-card" style="flex: 1; min-width: 340px; max-width: 440px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h2 id="current-anim-name" style="margin: 0; font-size: 20px; color: var(--accent);">Idle</h2>
+      <span id="frame-counter" class="info-tag">Frame 0 / 6</span>
+    </div>
+
+    <div class="canvas-box">
+      <canvas id="view-canvas" width="256" height="256"></canvas>
+    </div>
+
+    <div class="controls">
+      <div>
+        <label style="font-size: 13px; color: var(--muted); margin-bottom: 6px; display: block;">Select Animation:</label>
+        <div class="btn-group" id="anim-buttons">
+          <button class="active" onclick="switchAnim('Idle')">Idle</button>
+          <button onclick="switchAnim('Run')">Run</button>
+          <button onclick="switchAnim('Jump')">Jump</button>
+          <button onclick="switchAnim('Fall')">Fall</button>
+          <button onclick="switchAnim('Attack')">Attack (Slash)</button>
+          <button onclick="switchAnim('Attack2')">Attack2 (Cleave)</button>
+          <button onclick="switchAnim('Hit')">Hit</button>
+          <button onclick="switchAnim('Death')">Death</button>
+        </div>
+      </div>
+
+      <div class="slider-row">
+        <span>Zoom:</span>
+        <button onclick="setZoom(4)" id="zoom-4">4x (128px)</button>
+        <button class="active" onclick="setZoom(8)" id="zoom-8">8x (256px)</button>
+        <button onclick="setZoom(12)" id="zoom-12">12x (384px)</button>
+      </div>
+
+      <div class="slider-row">
+        <span>Speed:</span>
+        <input type="range" id="speed-slider" min="1" max="24" value="6" oninput="updateSpeed(this.value)">
+        <span id="speed-label">6 FPS</span>
+      </div>
+
+      <div class="btn-group">
+        <button id="play-pause-btn" onclick="togglePlay()">Pause</button>
+        <button onclick="stepFrame(-1)">&larr; Prev Frame</button>
+        <button onclick="stepFrame(1)">Next Frame &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview-card" style="flex: 1; min-width: 400px;">
+    <h2 style="margin-top: 0; color: var(--accent);">Character Design & Lore Specs</h2>
+    <table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.8;">
+      <tr><td style="color: var(--muted); width: 140px;">Character:</td><td>Hero of <em>Heritage Quest</em></td></tr>
+      <tr><td style="color: var(--muted);">Ethnicity:</td><td>Indian (warm golden-brown complexion, regal mustache, warrior hair)</td></tr>
+      <tr><td style="color: var(--muted);">Upper Garment:</td><td>Authentic <strong>Yellow Kurta</strong> with Mandarin collar, gold buttons, and hip chaaks (side slits)</td></tr>
+      <tr><td style="color: var(--muted);">Lower Garment:</td><td>Authentic <strong>White Dhoti</strong> with pleated central drape (kachha fold)</td></tr>
+      <tr><td style="color: var(--muted);">Waist Sash:</td><td>Crimson Kamarband / Patka with dangling gold-fringed ends</td></tr>
+      <tr><td style="color: var(--muted);">Footwear:</td><td>Traditional Leather Mojris / Jutis with pointed curled toes</td></tr>
+      <tr><td style="color: var(--muted);">Primary Weapon:</td><td>Curved Indian <strong>Talwar</strong> with burnished brass disc pommel (katori)</td></tr>
+      <tr><td style="color: var(--muted);">Resolution:</td><td>32x32 pixels per frame (pixel-perfect sprite alignment)</td></tr>
+      <tr><td style="color: var(--muted);">Godot Engine:</td><td>Ready for <code>AnimatedSprite2D</code> or <code>SpriteFrames</code> (.tres included)</td></tr>
+    </table>
+
+    <div style="margin-top: 20px; padding: 12px; background: #0f172a; border-radius: 8px; border: 1px solid #334155; font-size: 13px;">
+      <strong style="color: #38bdf8;">Animation Frame Breakdown:</strong>
+      <ul style="margin: 8px 0 0 18px; padding: 0;">
+        <li><strong>Idle:</strong> 6 frames &bull; Subtle chest breathing &bull; Eye blink &bull; Blade gleam</li>
+        <li><strong>Run:</strong> 8 frames &bull; Full platformer cycle &bull; Dhoti billow &bull; Kurta flutter</li>
+        <li><strong>Jump:</strong> 4 frames &bull; Launch crouch &bull; Rocket rise &bull; Apex tuck</li>
+        <li><strong>Fall:</strong> 2 frames &bull; Upward wind cloth fluttering &bull; Landing ready</li>
+        <li><strong>Attack:</strong> 6 frames &bull; Horizontal Talwar slash &bull; Curved cyan/gold energy arc</li>
+        <li><strong>Attack2:</strong> 6 frames &bull; Overhead Talwar cleave &bull; Vertical shockwave arc</li>
+        <li><strong>Hit:</strong> 3 frames &bull; Recoil shock &bull; Knockback stagger &bull; Recovery</li>
+        <li><strong>Death:</strong> 8 frames &bull; Buckling knees &bull; Weapon drop &bull; Honorable fallen rest</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="master-sheet-view">
+  <h2 style="margin: 0 0 8px 0; color: var(--accent);">Master Sprite Sheet (All Animations)</h2>
+  <p style="color: var(--muted); margin: 0 0 12px 0;">All 8 animation sequences consolidated into an 8x8 32x32 grid sheet (256x256 px):</p>
+  <img src="HeritageQuest_Hero_Master_Sheet.png" alt="Master Sheet">
+</div>
+
+<script>
+const animData = {
+  'Idle': { count: 6, speed: 6, loop: true, img: 'Idle.png' },
+  'Run': { count: 8, speed: 10, loop: true, img: 'Run.png' },
+  'Jump': { count: 4, speed: 6, loop: false, img: 'Jump.png' },
+  'Fall': { count: 2, speed: 6, loop: true, img: 'Fall.png' },
+  'Attack': { count: 6, speed: 8, loop: false, img: 'Attack.png' },
+  'Attack2': { count: 6, speed: 8, loop: false, img: 'Attack2.png' },
+  'Hit': { count: 3, speed: 6, loop: false, img: 'Hit.png' },
+  'Death': { count: 8, speed: 5, loop: false, img: 'Death.png' },
+};
+
+let currentAnim = 'Idle';
+let currentFrame = 0;
+let isPlaying = true;
+let zoom = 8;
+let images = {};
+let timer = null;
+
+const canvas = document.getElementById('view-canvas');
+const ctx = canvas.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+
+// Preload spritesheets
+Object.keys(animData).forEach(key => {
+  const img = new Image();
+  img.src = animData[key].img;
+  images[key] = img;
+});
+
+function switchAnim(name) {
+  currentAnim = name;
+  currentFrame = 0;
+  document.getElementById('current-anim-name').innerText = name;
+  document.querySelectorAll('#anim-buttons button').forEach(btn => {
+    btn.classList.toggle('active', btn.innerText.includes(name));
+  });
+  document.getElementById('speed-slider').value = animData[name].speed;
+  document.getElementById('speed-label').innerText = animData[name].speed + ' FPS';
+  resetTimer();
+  render();
+}
+
+function setZoom(z) {
+  zoom = z;
+  const size = 32 * zoom;
+  canvas.width = size;
+  canvas.height = size;
+  ctx.imageSmoothingEnabled = false;
+  document.querySelectorAll('.slider-row button').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('zoom-' + z).classList.add('active');
+  render();
+}
+
+function updateSpeed(val) {
+  document.getElementById('speed-label').innerText = val + ' FPS';
+  resetTimer();
+}
+
+function togglePlay() {
+  isPlaying = !isPlaying;
+  document.getElementById('play-pause-btn').innerText = isPlaying ? 'Pause' : 'Play';
+  if (isPlaying) resetTimer();
+  else clearInterval(timer);
+}
+
+function stepFrame(delta) {
+  isPlaying = false;
+  document.getElementById('play-pause-btn').innerText = 'Play';
+  clearInterval(timer);
+  const total = animData[currentAnim].count;
+  currentFrame = (currentFrame + delta + total) % total;
+  render();
+}
+
+function resetTimer() {
+  clearInterval(timer);
+  if (!isPlaying) return;
+  const fps = parseInt(document.getElementById('speed-slider').value);
+  timer = setInterval(() => {
+    const total = animData[currentAnim].count;
+    const loop = animData[currentAnim].loop;
+    if (currentFrame + 1 >= total) {
+      if (loop) currentFrame = 0;
+    } else {
+      currentFrame++;
+    }
+    render();
+  }, 1000 / fps);
+}
+
+function render() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const img = images[currentAnim];
+  if (!img || !img.complete) {
+    setTimeout(render, 50);
+    return;
+  }
+  const sx = currentFrame * 32;
+  ctx.drawImage(img, sx, 0, 32, 32, 0, 0, canvas.width, canvas.height);
+  document.getElementById('frame-counter').innerText = 'Frame ' + currentFrame + ' / ' + animData[currentAnim].count;
+}
+
+images['Idle'].onload = () => {
+  setZoom(8);
+  resetTimer();
+};
+</script>
+
+</body>
+</html>

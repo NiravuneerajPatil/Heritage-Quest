@@ -1,0 +1,482 @@
+"""
+Heritage Quest - Heritage Sites Levels, Tilesets & Artifacts Interactive Visualizer
+"""
+
+import os
+
+def generate_preview_html():
+    out_path = "assets/heritage_levels_preview.html"
+
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Heritage Quest - Indian Heritage Sites, Tilesets & Artifacts</title>
+<style>
+  :root {
+    --bg: #0b0f19;
+    --card: #151d30;
+    --card-border: #243250;
+    --accent: #f59e0b;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --gold: #fde047;
+    --crimson: #ef4444;
+  }
+  body {
+    margin: 0;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  h1 {
+    color: var(--accent);
+    margin: 0 0 6px 0;
+    font-size: 28px;
+  }
+  .subtitle {
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-size: 15px;
+  }
+  .section {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  h2 {
+    color: var(--accent);
+    margin-top: 0;
+    font-size: 20px;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .badge {
+    background: #0284c7;
+    color: white;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  button {
+    background: #1e293b;
+    border: 1px solid #475569;
+    color: #f8fafc;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
+  button:hover {
+    background: #334155;
+  }
+  button.active {
+    background: var(--accent);
+    color: #0f172a;
+    border-color: #fbbf24;
+    font-weight: bold;
+  }
+  .parallax-viewport {
+    position: relative;
+    width: 100%;
+    max-width: 864px;
+    height: 486px;
+    border: 2px solid #3b4252;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    margin: 0 auto 16px auto;
+  }
+  .parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1728px;
+    height: 486px;
+    image-rendering: pixelated;
+    background-repeat: repeat-x;
+    background-size: 864px 486px;
+  }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+    color: var(--muted);
+  }
+  .slider-row input[type=range] {
+    width: 320px;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .item-card {
+    background: #0d1322;
+    border: 1px solid #23314d;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .item-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+  .item-canvas-box {
+    background: #182238;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .item-canvas-box canvas {
+    image-rendering: pixelated;
+  }
+  .item-title {
+    font-weight: bold;
+    color: var(--gold);
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .item-tag {
+    font-size: 11px;
+    color: #38bdf8;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .item-desc {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.4;
+  }
+  .tileset-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+  }
+  .tileset-box {
+    background: #0d1322;
+    border: 1px solid #23314d;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .tileset-box img {
+    image-rendering: pixelated;
+    width: 256px;
+    height: 256px;
+    border: 1px solid #475569;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Heritage Quest — Levels, Backdrops & Collectibles</h1>
+<p class="subtitle">Authentic Indian Heritage Sites &bull; Themed 32x32 Architectural Tilesets &bull; Animated Historical Artifacts & Clothing Power-Ups</p>
+
+<!-- SECTION 1: PARALLAX BACKDROPS -->
+<div class="section">
+  <h2>
+    <span>1. Heritage Site Parallax Backdrops</span>
+    <span class="badge">Multi-Layer Parallax (16:9)</span>
+  </h2>
+  
+  <div class="btn-group">
+    <button class="active" onclick="switchLevel('red_fort')">Level 1: Red Fort (Lal Qila, Delhi)</button>
+    <button onclick="switchLevel('hampi')">Level 2: Hampi Ruins (Vijayanagara, Karnataka)</button>
+    <button onclick="switchLevel('raigad')">Level 3: Raigad Fort (Sahyadri, Maharashtra)</button>
+  </div>
+
+  <div class="parallax-viewport" id="parallax-viewport">
+    <div class="parallax-layer" id="layer-sky"></div>
+    <div class="parallax-layer" id="layer-far"></div>
+    <div class="parallax-layer" id="layer-mid"></div>
+  </div>
+
+  <div class="slider-row">
+    <span>Drag to Scroll Camera:</span>
+    <input type="range" id="camera-slider" min="0" max="864" value="0" oninput="updateParallax(this.value)">
+    <button onclick="toggleAutoScroll()" id="auto-scroll-btn">Auto-Scroll: OFF</button>
+  </div>
+
+  <div id="level-lore-box" style="margin-top: 16px; padding: 12px; background: #0d1322; border-radius: 6px; font-size: 14px; line-height: 1.6;">
+    <strong style="color: var(--accent);">Historical Backdrop Context:</strong>
+    <p id="level-lore-text" style="margin: 6px 0 0 0; color: #cbd5e1;"></p>
+  </div>
+</div>
+
+<!-- SECTION 2: COLLECTIBLE ARTIFACTS & POWER-UPS -->
+<div class="section">
+  <h2>
+    <span>2. Historical Artifacts & Clothing Power-Ups</span>
+    <span class="badge">32x32 Animated Pixel Art</span>
+  </h2>
+  <p style="color: var(--muted); margin: 0 0 16px 0;">Interactive animated items that provide lore, score, and gameplay buffs (Vitality, Agility, Double-Jump, Attack Power):</p>
+
+  <div class="grid-container" id="artifacts-grid">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- SECTION 3: THEMED ARCHITECTURAL TILESETS -->
+<div class="section">
+  <h2>
+    <span>3. Themed Architectural Tilesets</span>
+    <span class="badge">32x32 Tiles (256x256 Sheets)</span>
+  </h2>
+  <p style="color: var(--muted); margin: 0 0 16px 0;">Authentic period-specific masonry, stone pillars, hanging oil lamps, arches, and battlements:</p>
+
+  <div class="tileset-grid">
+    <div class="tileset-box">
+      <h3 style="margin: 0; color: var(--gold); font-size: 16px;">Red Fort Sandstone</h3>
+      <p style="font-size: 12px; color: var(--muted); margin: 4px 0 8px 0;">Mughal red ashlar blocks, carved trim, arches, and hanging brass diyas</p>
+      <img src="images/tilesets/red_fort_sandstone.png" alt="Red Fort Sandstone Tileset">
+    </div>
+
+    <div class="tileset-box">
+      <h3 style="margin: 0; color: var(--gold); font-size: 16px;">Hampi Granite Ruins</h3>
+      <p style="font-size: 12px; color: var(--muted); margin: 4px 0 8px 0;">Ancient weathered granite, mossy stone slabs, carved Dravidian pillars & kalash urns</p>
+      <img src="images/tilesets/hampi_granite.png" alt="Hampi Granite Tileset">
+    </div>
+
+    <div class="tileset-box">
+      <h3 style="margin: 0; color: var(--gold); font-size: 16px;">Raigad Basalt Rock</h3>
+      <p style="font-size: 12px; color: var(--muted); margin: 4px 0 8px 0;">Deccan basalt mountain stone, fortified ramparts, iron sconce torches</p>
+      <img src="images/tilesets/raigad_basalt.png" alt="Raigad Basalt Tileset">
+    </div>
+  </div>
+</div>
+
+<script>
+const levelData = {
+  'red_fort': {
+    title: 'Level 1: Red Fort (Lal Qila, Delhi)',
+    lore: 'Lal Qila stands as the majestic 17th-century sandstone fortress of Emperor Shah Jahan and a historic focal point of Indian resistance against British colonial rule. The backdrop features the sunset over the Yamuna river, silhouettes of Jama Masjid domes and minarets, and the octagonal bastions of Lahori Gate.',
+    sky: 'images/backgrounds/red_fort/sky.png',
+    far: 'images/backgrounds/red_fort/monuments_far.png',
+    mid: 'images/backgrounds/red_fort/fort_mid.png'
+  },
+  'hampi': {
+    title: 'Level 2: Hampi Ruins (Vijayanagara, Karnataka)',
+    lore: 'Capital of the magnificent Vijayanagara Empire on the banks of the Tungabhadra River. Features the dramatic boulder hills of Matanga, the towering 11-tiered Dravidian Virupaksha Gopuram, monolithic carved granite mandapas, and lush coconut palm groves.',
+    sky: 'images/backgrounds/hampi/sky.png',
+    far: 'images/backgrounds/hampi/hills_far.png',
+    mid: 'images/backgrounds/hampi/temple_mid.png'
+  },
+  'raigad': {
+    title: 'Level 3: Raigad Fort (Sahyadri, Maharashtra)',
+    lore: 'The unconquerable mountain capital of Chhatrapati Shivaji Maharaj in the rugged Sahyadri Western Ghats. Perched atop sheer basalt volcanic escarpments surrounded by deep swirling mountain mist, guarded by the massive Maha Darwaja and flying proud saffron Bhagwa Dhwaj flags.',
+    sky: 'images/backgrounds/raigad/sky.png',
+    far: 'images/backgrounds/raigad/cliffs_far.png',
+    mid: 'images/backgrounds/raigad/citadel_mid.png'
+  }
+};
+
+const artifactsList = [
+  {
+    id: 'artifact_kohinoor',
+    name: 'Koh-i-Noor Diamond',
+    type: 'Historic Treasure',
+    frames: 4,
+    img: 'images/artifacts/artifact_kohinoor.png',
+    desc: 'The legendary Golconda diamond of extraordinary brilliance. Radiates celestial light, illuminating dark chambers and granting 1000 points.'
+  },
+  {
+    id: 'artifact_nataraja',
+    name: 'Bronze Nataraja Idol',
+    type: 'Chola Bronze Ward',
+    frames: 4,
+    img: 'images/artifacts/artifact_nataraja.png',
+    desc: 'Ancient Chola masterpiece depicting the cosmic dance of creation and dissolution. Generates a divine protective ward against enemy strikes.'
+  },
+  {
+    id: 'artifact_ashoka_seal',
+    name: 'Ashoka Lion Capital Crest',
+    type: 'Maurya Empire Crest',
+    frames: 4,
+    img: 'images/artifacts/artifact_ashoka_seal.png',
+    desc: 'Polished golden crest featuring Emperor Ashoka\\'s lions and the 24-spoke Dharma Chakra. Unlocks sealed ancient portals and gates.'
+  },
+  {
+    id: 'artifact_shivrai_coin',
+    name: 'Gold Shivrai Coin',
+    type: 'Maratha Royal Currency',
+    frames: 6,
+    img: 'images/artifacts/artifact_shivrai_coin.png',
+    desc: 'Historic gold coinage struck at Raigad Fort with sacred Devanagari script ("श्री राजा शिवछत्रपती"). Collected to upgrade gear.'
+  },
+  {
+    id: 'artifact_manuscript',
+    name: 'Palm-Leaf Manuscript',
+    type: 'Ancient Martial Scroll',
+    frames: 4,
+    img: 'images/artifacts/artifact_manuscript.png',
+    desc: 'Sacred Talapatra scroll bound with red silk cord containing ancient Dhanurveda and Kalaripayattu combat techniques.'
+  },
+  {
+    id: 'powerup_turban',
+    name: 'Saffron Pagri',
+    type: 'Clothing Power-Up: Vitality',
+    frames: 4,
+    img: 'images/artifacts/powerup_turban.png',
+    desc: 'Royal saffron turban adorned with a ruby-centered Kalgi and peacock plume. Instantly grants +1 Maximum Health / Armor.'
+  },
+  {
+    id: 'powerup_angavastram',
+    name: 'Zari Angavastram',
+    type: 'Clothing Power-Up: Agility',
+    frames: 4,
+    img: 'images/artifacts/powerup_angavastram.png',
+    desc: 'Fine crimson and gold silk ceremonial shoulder drape. Endows the hero with wind-glide and the ability to Double Jump in mid-air!'
+  },
+  {
+    id: 'powerup_vambrace',
+    name: 'Mavala Steel Vambrace',
+    type: 'Clothing Power-Up: Strength',
+    frames: 4,
+    img: 'images/artifacts/powerup_vambrace.png',
+    desc: 'Damascus Wootz steel arm-guard with brass rivets and warrior insignia. Greatly boosts Talwar attack damage against armored enemies.'
+  }
+];
+
+let currentLevelKey = 'red_fort';
+let autoScroll = false;
+let scrollPos = 0;
+let autoScrollInterval = null;
+
+function switchLevel(key) {
+  currentLevelKey = key;
+  const data = levelData[key];
+  document.querySelectorAll('.btn-group button').forEach(b => {
+    b.classList.toggle('active', b.innerText.toLowerCase().includes(key.replace('_', ' ')));
+  });
+  document.getElementById('layer-sky').style.backgroundImage = `url('${data.sky}')`;
+  document.getElementById('layer-far').style.backgroundImage = `url('${data.far}')`;
+  document.getElementById('layer-mid').style.backgroundImage = `url('${data.mid}')`;
+  document.getElementById('level-lore-text').innerText = data.lore;
+  updateParallax(scrollPos);
+}
+
+function updateParallax(val) {
+  scrollPos = parseInt(val);
+  // Parallax motion factors:
+  const skyOffset = -(scrollPos * 0.15) % 864;
+  const farOffset = -(scrollPos * 0.45) % 864;
+  const midOffset = -(scrollPos * 0.90) % 864;
+
+  document.getElementById('layer-sky').style.transform = `translateX(${skyOffset}px)`;
+  document.getElementById('layer-far').style.transform = `translateX(${farOffset}px)`;
+  document.getElementById('layer-mid').style.transform = `translateX(${midOffset}px)`;
+}
+
+function toggleAutoScroll() {
+  autoScroll = !autoScroll;
+  const btn = document.getElementById('auto-scroll-btn');
+  btn.innerText = 'Auto-Scroll: ' + (autoScroll ? 'ON' : 'OFF');
+  btn.classList.toggle('active', autoScroll);
+  if (autoScroll) {
+    autoScrollInterval = setInterval(() => {
+      scrollPos = (scrollPos + 2) % 864;
+      document.getElementById('camera-slider').value = scrollPos;
+      updateParallax(scrollPos);
+    }, 30);
+  } else {
+    clearInterval(autoScrollInterval);
+  }
+}
+
+// Build Artifacts Grid with Animated Canvases
+function buildArtifactsUI() {
+  const container = document.getElementById('artifacts-grid');
+  artifactsList.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'item-card';
+
+    const canvasBox = document.createElement('div');
+    canvasBox.className = 'item-canvas-box';
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 128; // 4x scale of 32x32
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+
+    canvasBox.appendChild(canvas);
+
+    const title = document.createElement('div');
+    title.className = 'item-title';
+    title.innerText = item.name;
+
+    const tag = document.createElement('div');
+    tag.className = 'item-tag';
+    tag.innerText = item.type;
+
+    const desc = document.createElement('div');
+    desc.className = 'item-desc';
+    desc.innerText = item.desc;
+
+    card.appendChild(canvasBox);
+    card.appendChild(title);
+    card.appendChild(tag);
+    card.appendChild(desc);
+    container.appendChild(card);
+
+    // Animation loop for item
+    const img = new Image();
+    img.src = item.img;
+    let frameIdx = 0;
+    img.onload = () => {
+      setInterval(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const sx = frameIdx * 32;
+        ctx.drawImage(img, sx, 0, 32, 32, 0, 0, canvas.width, canvas.height);
+        frameIdx = (frameIdx + 1) % item.frames;
+      }, 150);
+    };
+  });
+}
+
+window.onload = () => {
+  switchLevel('red_fort');
+  buildArtifactsUI();
+};
+</script>
+
+</body>
+</html>
+"""
+    with open(out_path, 'w', encoding='utf-8') as fp:
+        fp.write(html)
+    print(f"Generated Interactive Preview HTML: {out_path}")
+
+if __name__ == '__main__':
+    generate_preview_html()
