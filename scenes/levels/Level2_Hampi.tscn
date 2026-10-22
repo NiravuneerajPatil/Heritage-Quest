@@ -1,8 +1,8 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/hampi/sky.png" id="1_sky"]
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/hampi/hills_far.png" id="2_far"]
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/hampi/temple_mid.png" id="3_mid"]
+[ext_resource type="Texture2D" uid="uid://442mq02n66oo" path="res://assets/images/backgrounds/hampi/sky.png" id="1_sky"]
+[ext_resource type="Texture2D" uid="uid://iid665y34ohs" path="res://assets/images/backgrounds/hampi/hills_far.png" id="2_far"]
+[ext_resource type="Texture2D" uid="uid://cwi3c4v0gxuud" path="res://assets/images/backgrounds/hampi/temple_mid.png" id="3_mid"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4_player"]
 [ext_resource type="PackedScene" path="res://scenes/components/Artifact.tscn" id="5_artifact"]
 [ext_resource type="PackedScene" path="res://scenes/components/LevelExit.tscn" id="6_exit"]

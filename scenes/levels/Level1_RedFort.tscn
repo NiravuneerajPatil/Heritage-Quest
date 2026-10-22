@@ -1,13 +1,13 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/red_fort/sky.png" id="1_sky"]
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/red_fort/monuments_far.png" id="2_far"]
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/red_fort/fort_mid.png" id="3_mid"]
+[ext_resource type="Texture2D" uid="uid://c8uy7tgf5tkrs" path="res://assets/images/backgrounds/red_fort/sky.png" id="1_sky"]
+[ext_resource type="Texture2D" uid="uid://ddotaq8j2oqod" path="res://assets/images/backgrounds/red_fort/monuments_far.png" id="2_far"]
+[ext_resource type="Texture2D" uid="uid://cet80l5pstq5w" path="res://assets/images/backgrounds/red_fort/fort_mid.png" id="3_mid"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4_player"]
 [ext_resource type="PackedScene" path="res://scenes/components/Artifact.tscn" id="5_artifact"]
 [ext_resource type="PackedScene" path="res://scenes/components/LevelExit.tscn" id="6_exit"]
 [ext_resource type="PackedScene" path="res://scenes/components/HUD.tscn" id="7_hud"]
-[ext_resource type="Texture2D" path="res://assets/images/tilesets/red_fort_sandstone.png" id="8_tileset"]
+[ext_resource type="Texture2D" uid="uid://c0t8e6q8atxpi" path="res://assets/images/tilesets/red_fort_sandstone.png" id="8_tileset"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2000, 108)

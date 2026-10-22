@@ -1,8 +1,8 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/raigad/sky.png" id="1_sky"]
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/raigad/cliffs_far.png" id="2_far"]
-[ext_resource type="Texture2D" path="res://assets/images/backgrounds/raigad/citadel_mid.png" id="3_mid"]
+[ext_resource type="Texture2D" uid="uid://fxtdwlibr8uc" path="res://assets/images/backgrounds/raigad/sky.png" id="1_sky"]
+[ext_resource type="Texture2D" uid="uid://bj636qmelq7wo" path="res://assets/images/backgrounds/raigad/cliffs_far.png" id="2_far"]
+[ext_resource type="Texture2D" uid="uid://b7ljtknap4tgc" path="res://assets/images/backgrounds/raigad/citadel_mid.png" id="3_mid"]
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4_player"]
 [ext_resource type="PackedScene" path="res://scenes/components/Artifact.tscn" id="5_artifact"]
 [ext_resource type="PackedScene" path="res://scenes/components/LevelExit.tscn" id="6_exit"]
