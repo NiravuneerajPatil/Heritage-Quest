@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://ddofek5r5nlhp"]
+
+[ext_resource type="Script" uid="uid://bytrovwprpvbm" path="res://scripts/enemy.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(20, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(22, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(18, 22)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=364544014 groups=["enemies"]]
+collision_layer = 4
+script = ExtResource("1_script")
+
+[node name="Sprite" type="ColorRect" parent="." unique_id=1157966336]
+offset_left = -10.0
+offset_top = -20.0
+offset_right = 10.0
+offset_bottom = 4.0
+color = Color(0.7, 0.15, 0.15, 1)
+
+[node name="EyeLeft" type="ColorRect" parent="Sprite" unique_id=399434808]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 6.0
+offset_bottom = 8.0
+color = Color(1, 1, 0.3, 1)
+
+[node name="EyeRight" type="ColorRect" parent="Sprite" unique_id=202016795]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 4.0
+offset_right = 18.0
+offset_bottom = 8.0
+color = Color(1, 1, 0.3, 1)
+
+[node name="Helmet" type="ColorRect" parent="Sprite" unique_id=2145858661]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -4.0
+offset_right = 22.0
+offset_bottom = 2.0
+color = Color(0.3, 0.3, 0.35, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1048054453]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=329053181]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1521300906]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=918725670]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1953199952]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_hurtbox")

@@ -1,12 +1,13 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://boke5l3a63sna"]
 
 [ext_resource type="Texture2D" uid="uid://442mq02n66oo" path="res://assets/images/backgrounds/hampi/sky.png" id="1_sky"]
 [ext_resource type="Texture2D" uid="uid://iid665y34ohs" path="res://assets/images/backgrounds/hampi/hills_far.png" id="2_far"]
 [ext_resource type="Texture2D" uid="uid://cwi3c4v0gxuud" path="res://assets/images/backgrounds/hampi/temple_mid.png" id="3_mid"]
-[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="4_player"]
+[ext_resource type="PackedScene" uid="uid://ouap034qyyy3" path="res://scenes/Player.tscn" id="4_player"]
 [ext_resource type="PackedScene" path="res://scenes/components/Artifact.tscn" id="5_artifact"]
 [ext_resource type="PackedScene" path="res://scenes/components/LevelExit.tscn" id="6_exit"]
 [ext_resource type="PackedScene" path="res://scenes/components/HUD.tscn" id="7_hud"]
+[ext_resource type="Script" uid="uid://bxx2f772g6xo5" path="res://scripts/enemy_spawner.gd" id="8_ljcet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2100, 108)
@@ -29,164 +30,168 @@ size = Vector2(40, 800)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_r"]
 size = Vector2(40, 800)
 
-[node name="Level2_Hampi" type="Node2D"]
+[node name="Level2_Hampi" type="Node2D" unique_id=1687278034]
 
-[node name="HUD" parent="." instance=ExtResource("7_hud")]
+[node name="HUD" parent="." unique_id=1266726383 instance=ExtResource("7_hud")]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=198448409]
 
-[node name="SkyLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="SkyLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1100900443]
 motion_scale = Vector2(0.1, 0.1)
 motion_mirroring = Vector2(1152, 0)
 
-[node name="SkySprite" type="Sprite2D" parent="ParallaxBackground/SkyLayer"]
+[node name="SkySprite" type="Sprite2D" parent="ParallaxBackground/SkyLayer" unique_id=710443567]
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("1_sky")
 centered = false
 
-[node name="FarLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="FarLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=634082646]
 motion_scale = Vector2(0.3, 0.2)
 motion_mirroring = Vector2(1152, 0)
 
-[node name="FarSprite" type="Sprite2D" parent="ParallaxBackground/FarLayer"]
+[node name="FarSprite" type="Sprite2D" parent="ParallaxBackground/FarLayer" unique_id=1787988418]
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("2_far")
 centered = false
 
-[node name="MidLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="MidLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=87980650]
 motion_scale = Vector2(0.6, 0.4)
 motion_mirroring = Vector2(1152, 0)
 
-[node name="MidSprite" type="Sprite2D" parent="ParallaxBackground/MidLayer"]
+[node name="MidSprite" type="Sprite2D" parent="ParallaxBackground/MidLayer" unique_id=492600701]
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("3_mid")
 centered = false
 
-[node name="Platforms" type="Node2D" parent="."]
+[node name="Platforms" type="Node2D" parent="." unique_id=583226138]
 
-[node name="Ground" type="StaticBody2D" parent="Platforms"]
+[node name="Ground" type="StaticBody2D" parent="Platforms" unique_id=812689129]
 position = Vector2(0, 540)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Ground"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Ground" unique_id=1477398635]
 position = Vector2(1050, 54)
 shape = SubResource("RectangleShape2D_ground")
 
-[node name="GraniteGround" type="ColorRect" parent="Platforms/Ground"]
+[node name="GraniteGround" type="ColorRect" parent="Platforms/Ground" unique_id=1375957568]
 offset_right = 2100.0
 offset_bottom = 108.0
 color = Color(0.470588, 0.45098, 0.435294, 1)
 
-[node name="MossTrim" type="ColorRect" parent="Platforms/Ground"]
+[node name="MossTrim" type="ColorRect" parent="Platforms/Ground" unique_id=584802746]
 offset_right = 2100.0
 offset_bottom = 6.0
 color = Color(0.290196, 0.509804, 0.235294, 1)
 
-[node name="Platform1_Monolith" type="StaticBody2D" parent="Platforms"]
+[node name="Platform1_Monolith" type="StaticBody2D" parent="Platforms" unique_id=583451836]
 position = Vector2(260, 430)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform1_Monolith"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform1_Monolith" unique_id=2052797337]
 position = Vector2(90, 10)
 shape = SubResource("RectangleShape2D_p1")
 
-[node name="Visual" type="ColorRect" parent="Platforms/Platform1_Monolith"]
+[node name="Visual" type="ColorRect" parent="Platforms/Platform1_Monolith" unique_id=2113290712]
 offset_right = 180.0
 offset_bottom = 20.0
 color = Color(0.55, 0.53, 0.51, 1)
 
-[node name="Moss" type="ColorRect" parent="Platforms/Platform1_Monolith"]
+[node name="Moss" type="ColorRect" parent="Platforms/Platform1_Monolith" unique_id=1347758486]
 offset_right = 180.0
 offset_bottom = 4.0
 color = Color(0.29, 0.51, 0.24, 1)
 
-[node name="Platform2_Mandapa" type="StaticBody2D" parent="Platforms"]
+[node name="Platform2_Mandapa" type="StaticBody2D" parent="Platforms" unique_id=1589623118]
 position = Vector2(520, 330)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform2_Mandapa"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform2_Mandapa" unique_id=1395478054]
 position = Vector2(100, 10)
 shape = SubResource("RectangleShape2D_p2")
 
-[node name="Visual" type="ColorRect" parent="Platforms/Platform2_Mandapa"]
+[node name="Visual" type="ColorRect" parent="Platforms/Platform2_Mandapa" unique_id=922323178]
 offset_right = 200.0
 offset_bottom = 20.0
 color = Color(0.55, 0.53, 0.51, 1)
 
-[node name="Platform3_GopuramApex" type="StaticBody2D" parent="Platforms"]
+[node name="Platform3_GopuramApex" type="StaticBody2D" parent="Platforms" unique_id=1418987182]
 position = Vector2(820, 220)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform3_GopuramApex"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform3_GopuramApex" unique_id=1946081174]
 position = Vector2(110, 10)
 shape = SubResource("RectangleShape2D_p3")
 
-[node name="Visual" type="ColorRect" parent="Platforms/Platform3_GopuramApex"]
+[node name="Visual" type="ColorRect" parent="Platforms/Platform3_GopuramApex" unique_id=1075838461]
 offset_right = 220.0
 offset_bottom = 20.0
 color = Color(0.65, 0.63, 0.61, 1)
 
-[node name="GoldTrim" type="ColorRect" parent="Platforms/Platform3_GopuramApex"]
+[node name="GoldTrim" type="ColorRect" parent="Platforms/Platform3_GopuramApex" unique_id=951137131]
 offset_right = 220.0
 offset_bottom = 4.0
 color = Color(0.984314, 0.74902, 0.141176, 1)
 
-[node name="Platform4_StoneChariot" type="StaticBody2D" parent="Platforms"]
+[node name="Platform4_StoneChariot" type="StaticBody2D" parent="Platforms" unique_id=453338240]
 position = Vector2(1160, 360)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform4_StoneChariot"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform4_StoneChariot" unique_id=566078380]
 position = Vector2(90, 10)
 shape = SubResource("RectangleShape2D_p4")
 
-[node name="Visual" type="ColorRect" parent="Platforms/Platform4_StoneChariot"]
+[node name="Visual" type="ColorRect" parent="Platforms/Platform4_StoneChariot" unique_id=777797196]
 offset_right = 180.0
 offset_bottom = 20.0
 color = Color(0.55, 0.53, 0.51, 1)
 
-[node name="LeftBoundary" type="StaticBody2D" parent="Platforms"]
+[node name="LeftBoundary" type="StaticBody2D" parent="Platforms" unique_id=2094172687]
 position = Vector2(-20, 300)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/LeftBoundary"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/LeftBoundary" unique_id=1775996700]
 shape = SubResource("RectangleShape2D_wall_l")
 
-[node name="RightBoundary" type="StaticBody2D" parent="Platforms"]
+[node name="RightBoundary" type="StaticBody2D" parent="Platforms" unique_id=448830173]
 position = Vector2(1960, 300)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/RightBoundary"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/RightBoundary" unique_id=1746953731]
 shape = SubResource("RectangleShape2D_wall_r")
 
-[node name="Collectibles" type="Node2D" parent="."]
+[node name="Collectibles" type="Node2D" parent="." unique_id=279960691]
 
-[node name="Artifact_Angavastram" parent="Collectibles" instance=ExtResource("5_artifact")]
+[node name="Artifact_Angavastram" parent="Collectibles" unique_id=1539600847 instance=ExtResource("5_artifact")]
 position = Vector2(350, 390)
 item_id = "powerup_angavastram"
 item_display_name = "Zari Angavastram (Double Jump)"
 points = 350
 
-[node name="Artifact_AshokaSeal" parent="Collectibles" instance=ExtResource("5_artifact")]
+[node name="Artifact_AshokaSeal" parent="Collectibles" unique_id=236967739 instance=ExtResource("5_artifact")]
 position = Vector2(620, 290)
 item_id = "artifact_ashoka_seal"
 item_display_name = "Ashoka Lion Capital Seal"
 points = 400
 
-[node name="Artifact_Nataraja" parent="Collectibles" instance=ExtResource("5_artifact")]
+[node name="Artifact_Nataraja" parent="Collectibles" unique_id=1402054304 instance=ExtResource("5_artifact")]
 position = Vector2(930, 170)
 item_id = "artifact_nataraja"
 item_display_name = "Bronze Nataraja Idol"
 points = 1000
 
-[node name="LevelExit" parent="." instance=ExtResource("6_exit")]
+[node name="LevelExit" parent="." unique_id=1764756776 instance=ExtResource("6_exit")]
 position = Vector2(1820, 540)
 next_level_path = "res://scenes/levels/Level3_Raigad.tscn"
 level_title = "Hampi Ruins Cleared!"
 
-[node name="Player" parent="." instance=ExtResource("4_player")]
+[node name="Player" parent="." unique_id=573179346 instance=ExtResource("4_player")]
 position = Vector2(100, 480)
 scale = Vector2(1.5, 1.5)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=2135711210]
 position = Vector2(0, -40)
 limit_left = 0
 limit_top = 0
 limit_right = 1960
 limit_bottom = 648
 position_smoothing_enabled = true
+
+[node name="EnemySpawner" type="Node2D" parent="." unique_id=1553950317]
+position = Vector2(807, 493)
+script = ExtResource("8_ljcet")

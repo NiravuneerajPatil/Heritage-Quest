@@ -7,6 +7,7 @@ extends CanvasLayer
 @onready var artifacts_label: Label = $MarginContainer/VBoxContainer/BottomRow/ArtifactsLabel
 @onready var powerups_container: HBoxContainer = $MarginContainer/VBoxContainer/BottomRow/PowerupsContainer
 @onready var banner: PanelContainer = $BannerContainer
+@onready var health_container: HBoxContainer = $MarginContainer/VBoxContainer/TopRow/HealthContainer
 
 var level_name: String = "Heritage Site"
 
@@ -66,6 +67,24 @@ func add_powerup_badge(text: String) -> void:
 	tag.add_theme_color_override("font_color", Color(0.98, 0.75, 0.14))
 	tag.add_theme_font_size_override("font_size", 11)
 	powerups_container.add_child(tag)
+
+func update_health(current: int, max_hp: int) -> void:
+	if not health_container:
+		return
+	# Clear existing hearts
+	for child in health_container.get_children():
+		child.queue_free()
+	# Add hearts
+	for i in range(max_hp):
+		var heart = Label.new()
+		if i < current:
+			heart.text = "♥"
+			heart.add_theme_color_override("font_color", Color(0.9, 0.15, 0.15))
+		else:
+			heart.text = "♡"
+			heart.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))
+		heart.add_theme_font_size_override("font_size", 18)
+		health_container.add_child(heart)
 
 func _on_artifact_collected(item_name: String, item_type: String) -> void:
 	update_display()
