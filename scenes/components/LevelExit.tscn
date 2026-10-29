@@ -1,33 +1,94 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b07rgoecok7kd"]
 
-[ext_resource type="Script" path="res://scripts/level_exit.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://b26qqip7vyjcs" path="res://scripts/level_exit.gd" id="1_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
 size = Vector2(32, 64)
 
-[node name="LevelExit" type="Area2D"]
+[sub_resource type="LabelSettings" id="LabelSettings_htemk"]
+font_size = 24
+font_color = Color(0.754719, 0.67265064, 0.11564242, 1)
+
+[node name="LevelExit" type="Area2D" unique_id=1535693363]
 collision_layer = 2
-collision_mask = 1
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=911936538]
 position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_gate")
 
-[node name="ArchFrame" type="ColorRect" parent="."]
+[node name="ArchFrame" type="ColorRect" parent="." unique_id=1557170878]
 offset_left = -18.0
 offset_top = -66.0
 offset_right = 18.0
 color = Color(0.984314, 0.74902, 0.141176, 0.8)
 
-[node name="Doorway" type="ColorRect" parent="."]
+[node name="Doorway" type="ColorRect" parent="." unique_id=1221092114]
 offset_left = -14.0
 offset_top = -62.0
 offset_right = 14.0
 color = Color(0.0588235, 0.0901961, 0.164706, 0.9)
 
-[node name="GlowEffect" type="ColorRect" parent="."]
+[node name="GlowEffect" type="ColorRect" parent="." unique_id=925587563]
 offset_left = -10.0
 offset_top = -58.0
 offset_right = 10.0
 color = Color(0.219608, 0.741176, 0.972549, 0.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=517832621]
+process_mode = 3
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=966082464]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Background" unique_id=1287275186]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Background/CenterContainer" unique_id=1986893766]
+custom_minimum_size = Vector2(650, 450)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Background/CenterContainer/PanelContainer" unique_id=1554077312]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer" unique_id=1406513927]
+layout_mode = 2
+
+[node name="LevelTitleLabel" type="Label" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1387243403]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_htemk")
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1692786572]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=2068741309]
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ArtifactsContainer" type="VBoxContainer" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=253910118]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=682387950]
+layout_mode = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=423861387]
+layout_mode = 2
+
+[node name="NextLevelButton" type="Button" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer" unique_id=2090188606]
+layout_mode = 2
+text = "Next Level"
+
+[node name="MenuButton" type="Button" parent="CanvasLayer/Background/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonContainer" unique_id=869295736]
+layout_mode = 2
+text = "Main Menu"

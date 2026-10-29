@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cet80l5pstq5w" path="res://assets/images/backgrounds/red_fort/fort_mid.png" id="3_mid"]
 [ext_resource type="PackedScene" uid="uid://ouap034qyyy3" path="res://scenes/Player.tscn" id="4_player"]
 [ext_resource type="PackedScene" path="res://scenes/components/Artifact.tscn" id="5_artifact"]
-[ext_resource type="PackedScene" path="res://scenes/components/LevelExit.tscn" id="6_exit"]
+[ext_resource type="PackedScene" uid="uid://b07rgoecok7kd" path="res://scenes/components/LevelExit.tscn" id="6_exit"]
 [ext_resource type="PackedScene" path="res://scenes/components/HUD.tscn" id="7_hud"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
@@ -184,8 +184,6 @@ points = 1000
 
 [node name="LevelExit" parent="." unique_id=1749231861 instance=ExtResource("6_exit")]
 position = Vector2(1740, 540)
-next_level_path = "res://scenes/levels/Level2_Hampi.tscn"
-level_title = "Lal Qila (Red Fort) Cleared!"
 
 [node name="Player" parent="." unique_id=736368332 instance=ExtResource("4_player")]
 position = Vector2(100, 480)

@@ -3,18 +3,19 @@
 [ext_resource type="Script" uid="uid://dfpdc1wygc4qm" path="res://scripts/player.gd" id="1_player_script"]
 [ext_resource type="SpriteFrames" uid="uid://chhibgyom0mua" path="res://assets/images/player_32x32/hero_sprite_frames.tres" id="2_player_frames"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hero"]
-size = Vector2(14, 26)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1ttus"]
 
-[node name="Player" type="CharacterBody2D" unique_id=1833445033]
+[node name="Player" type="CharacterBody2D" unique_id=1833445033 groups=["player"]]
 script = ExtResource("1_player_script")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=152269314]
 texture_filter = 1
 sprite_frames = ExtResource("2_player_frames")
-animation = &"Idle"
+animation = &"Attack1"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=776715184]
 position = Vector2(0, 2)
-shape = SubResource("RectangleShape2D_hero")
+shape = SubResource("CapsuleShape2D_1ttus")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

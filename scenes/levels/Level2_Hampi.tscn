@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cwi3c4v0gxuud" path="res://assets/images/backgrounds/hampi/temple_mid.png" id="3_mid"]
 [ext_resource type="PackedScene" uid="uid://ouap034qyyy3" path="res://scenes/Player.tscn" id="4_player"]
 [ext_resource type="PackedScene" path="res://scenes/components/Artifact.tscn" id="5_artifact"]
-[ext_resource type="PackedScene" path="res://scenes/components/LevelExit.tscn" id="6_exit"]
+[ext_resource type="PackedScene" uid="uid://b07rgoecok7kd" path="res://scenes/components/LevelExit.tscn" id="6_exit"]
 [ext_resource type="PackedScene" path="res://scenes/components/HUD.tscn" id="7_hud"]
 [ext_resource type="Script" uid="uid://bxx2f772g6xo5" path="res://scripts/enemy_spawner.gd" id="8_ljcet"]
 
@@ -179,6 +179,7 @@ points = 1000
 position = Vector2(1820, 540)
 next_level_path = "res://scenes/levels/Level3_Raigad.tscn"
 level_title = "Hampi Ruins Cleared!"
+level_index = 2
 
 [node name="Player" parent="." unique_id=573179346 instance=ExtResource("4_player")]
 position = Vector2(100, 480)

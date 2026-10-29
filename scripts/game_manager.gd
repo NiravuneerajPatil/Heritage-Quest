@@ -1,8 +1,6 @@
 extends Node
 
-# Heritage Quest - Global Game Manager
-# Tracks collected historical artifacts, active clothing power-ups, level transitions,
-# volume settings, outfit completion, and death/respawn state.
+# Heritage Quest - Global Game Manager (Autoload)
 
 signal artifact_collected(artifact_name: String, artifact_type: String)
 signal level_completed(level_name: String)
@@ -11,10 +9,10 @@ signal player_died
 var score: int = 0
 var collected_artifacts: Array[String] = []
 var active_powerups: Dictionary = {
-	"vitality": false,     # Saffron Pagri (+1 Max HP)
-	"double_jump": false,  # Zari Angavastram (Agility & Double Jump)
-	"attack_boost": false, # Mavala Vambrace (Increased Talwar Damage)
-	"speed_boost": false   # Royal Mojris (Sprint Agility)
+	"vitality": false,
+	"double_jump": false,
+	"attack_boost": false,
+	"speed_boost": false
 }
 
 # --- Volume Settings ---
@@ -27,7 +25,6 @@ var current_level_path: String = ""
 var current_level_index: int = 0
 
 # --- Outfit / Attire System ---
-# All outfit pieces in the game and their status
 var outfit_pieces: Dictionary = {
 	"powerup_turban": {
 		"name": "Saffron Pagri",
@@ -105,7 +102,6 @@ var level_artifacts: Dictionary = {
 	3: ["powerup_vambrace", "artifact_shivrai_coin", "artifact_ashoka_seal"]
 }
 
-# Full attire bonus active?
 var full_attire_bonus_active: bool = false
 
 func _ready() -> void:
@@ -116,7 +112,6 @@ func collect_item(item_name: String, item_type: String, points: int = 100) -> vo
 	if not collected_artifacts.has(item_type):
 		collected_artifacts.append(item_type)
 	
-	# Apply clothing power-ups
 	if item_type == "powerup_turban":
 		active_powerups["vitality"] = true
 		outfit_pieces["powerup_turban"]["collected"] = true
@@ -132,45 +127,16 @@ func collect_item(item_name: String, item_type: String, points: int = 100) -> vo
 	
 	artifact_collected.emit(item_name, item_type)
 	print("Collected: ", item_name, " (+", points, " pts). Total Score: ", score)
-	
-	# Check if full attire is complete
 	_check_full_attire()
 
 func has_powerup(powerup_name: String) -> bool:
 	return active_powerups.get(powerup_name, false)
 
-func get_outfit_completion_percentage() -> float:
-	var total := outfit_pieces.size()
-	var collected := 0
-	for key in outfit_pieces:
-		if outfit_pieces[key]["collected"]:
-			collected += 1
-	return (float(collected) / float(total)) * 100.0
-
-func get_collected_outfit_count() -> int:
-	var count := 0
-	for key in outfit_pieces:
-		if outfit_pieces[key]["collected"]:
-			count += 1
-	return count
-
-func is_full_attire_complete() -> bool:
-	for key in outfit_pieces:
-		if not outfit_pieces[key]["collected"]:
-			return false
-	return true
-
-func _check_full_attire() -> void:
-	if is_full_attire_complete() and not full_attire_bonus_active:
-		full_attire_bonus_active = true
-		print("🏆 FULL ATTIRE COMPLETE! Heritage Guardian powers unlocked!")
-
-func get_level_collected_artifacts(level_index: int) -> Array:
-	var level_arts = level_artifacts.get(level_index, [])
+func get_level_collected_artifacts(level_idx: int) -> Array:
+	var level_arts = level_artifacts.get(level_idx, [])
 	var result := []
 	for art_id in level_arts:
 		if collected_artifacts.has(art_id):
-			# Get data from artifact_data or outfit_pieces
 			if artifact_data.has(art_id):
 				var data = artifact_data[art_id].duplicate()
 				data["id"] = art_id
@@ -190,7 +156,17 @@ func reset_progress() -> void:
 		outfit_pieces[k]["collected"] = false
 	full_attire_bonus_active = false
 
-# --- Volume Management ---
+func is_full_attire_complete() -> bool:
+	for key in outfit_pieces:
+		if not outfit_pieces[key]["collected"]:
+			return false
+	return true
+
+func _check_full_attire() -> void:
+	if is_full_attire_complete() and not full_attire_bonus_active:
+		full_attire_bonus_active = true
+		print("🏆 FULL ATTIRE COMPLETE!")
+
 func set_master_volume(value: float) -> void:
 	master_volume = value
 	_apply_volume_settings()
@@ -204,7 +180,6 @@ func set_sfx_volume(value: float) -> void:
 	_apply_volume_settings()
 
 func _apply_volume_settings() -> void:
-	# Apply to Godot audio buses
 	var master_idx = AudioServer.get_bus_index("Master")
 	if master_idx >= 0:
 		AudioServer.set_bus_volume_db(master_idx, linear_to_db(master_volume))

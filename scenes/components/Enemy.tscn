@@ -11,6 +11,9 @@ size = Vector2(22, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
 size = Vector2(18, 22)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_htemk"]
+radius = 150.0
+
 [node name="Enemy" type="CharacterBody2D" unique_id=364544014 groups=["enemies"]]
 collision_layer = 4
 script = ExtResource("1_script")
@@ -64,3 +67,16 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1953199952]
 position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="LedgeCheck" type="RayCast2D" parent="." unique_id=971352003]
+position = Vector2(12, 12)
+target_position = Vector2(0, 15)
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=763287761]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1948488011]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_htemk")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

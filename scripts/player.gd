@@ -81,20 +81,18 @@ func _physics_process(delta: float) -> void:
 			is_invincible = false
 			modulate.a = 1.0
 		else:
-			# Flashing effect
 			modulate.a = 0.5 + 0.5 * sin(invincibility_timer * 20.0)
 	
 	# Add gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	else:
-		# Reset double jump when on floor
 		can_double_jump = has_double_jump_powerup
 
-	# Handle attack inputs
+	# Handle attack inputs (Use is_action_just_pressed or check is_attacking)
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not is_attacking:
 		trigger_attack("Attack1")
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not is_attacking:
+	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not is_attacking:
 		trigger_attack("Attack2")
 
 	# Handle jump input & double jump
@@ -102,48 +100,46 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
 		elif can_double_jump:
-			# Double Jump (Agility power-up from Zari Angavastram)
 			velocity.y = JUMP_VELOCITY * 0.9
 			can_double_jump = false
-			if animated_sprite_2d:
-				animated_sprite_2d.play("Jump")
+			_play_anim_if_new("Jump")
 
 	# Handle horizontal movement
 	var direction := Input.get_axis("left", "right")
 	
 	# Stop movement if attacking on the ground
 	if is_attacking and is_on_floor():
-		direction = 0 
+		direction = 0
 		
-	if direction:
+	if direction != 0:
 		velocity.x = direction * speed
 		if not is_attacking:
 			animated_sprite_2d.flip_h = (direction < 0)
-			# Update attack hitbox direction
 			if attack_area:
 				var shape_node = attack_area.get_child(0) as CollisionShape2D
 				if shape_node:
 					shape_node.position.x = -18 if direction < 0 else 18
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
+
+	# 1. ALWAYS run move_and_slide() FIRST to update physics states
+	move_and_slide()
 		
-	# Update animations based on movement state
+	# 2. Update animations AFTER physics state is updated
 	if not is_attacking:
 		update_animation()
-
-	move_and_slide()
 	
 	# Check for fall death
 	if global_position.y > FALL_DEATH_Y:
 		die()
-
 func trigger_attack(anim_name: String) -> void:
 	is_attacking = true
+	
 	# Enable attack hitbox
 	if attack_area:
 		attack_area.monitoring = true
 	
-	# Play Attack1 or fallback to Attack
+	# Play Attack1 or fallback
 	if animated_sprite_2d:
 		if animated_sprite_2d.sprite_frames.has_animation(anim_name):
 			animated_sprite_2d.play(anim_name)
@@ -153,18 +149,29 @@ func trigger_attack(anim_name: String) -> void:
 			animated_sprite_2d.play("Attack2")
 
 func update_animation() -> void:
-	if not animated_sprite_2d:
+	if not animated_sprite_2d or is_attacking:
 		return
+		
+	# Airborne Animations
 	if not is_on_floor():
 		if velocity.y < 0:
-			animated_sprite_2d.play("Jump")
+			_play_anim_if_new("Jump")
+		elif velocity.y > 100.0:
+			_play_anim_if_new("Fall")
 		else:
-			animated_sprite_2d.play("Fall")
+			if abs(velocity.x) > 1:
+				_play_anim_if_new("Run")
 	else:
+		# Ground Animations
 		if abs(velocity.x) > 1:
-			animated_sprite_2d.play("Run")
+			_play_anim_if_new("Run")
 		else:
-			animated_sprite_2d.play("Idle")
+			_play_anim_if_new("Idle")
+
+# Helper function to prevent restarting the animation on every frame
+func _play_anim_if_new(anim_name: String) -> void:
+	if animated_sprite_2d.animation != anim_name:
+		animated_sprite_2d.play(anim_name)
 
 func _on_animation_finished() -> void:
 	if animated_sprite_2d.animation in ["Attack", "Attack1", "Attack2"]:
@@ -271,3 +278,10 @@ func has_powerup(powerup_id: String) -> bool:
 			return speed > BASE_SPEED
 		_:
 			return false
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if is_attacking:
+		is_attacking = false
+		if attack_area:
+			attack_area.monitoring = false
