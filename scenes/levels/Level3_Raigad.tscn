@@ -187,7 +187,7 @@ points = 1000
 
 [node name="LevelExit" parent="." unique_id=1085265297 instance=ExtResource("6_exit")]
 position = Vector2(1850, 540)
-next_level_path = "res://scenes/levels/Level1_RedFort.tscn"
+next_level_path = "res://scenes/levels/Level4_Ujjain.tscn"
 level_title = "Raigad Fort Cleared! All Heritage Sites Liberated!"
 level_index = 3
 

@@ -1,177 +1,28 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bt06at741kcqw"]
 
-[ext_resource type="Script" path="res://scripts/settings_panel.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://1xj8nf250b4c" path="res://scripts/settings_panel.gd" id="1_script"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_settings_panel"]
-bg_color = Color(0.08, 0.1, 0.16, 0.95)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.984314, 0.74902, 0.141176, 0.8)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-expand_margin_left = 20.0
-expand_margin_top = 15.0
-expand_margin_right = 20.0
-expand_margin_bottom = 15.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_back_btn"]
-bg_color = Color(0.15, 0.15, 0.2, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.984314, 0.74902, 0.141176, 0.6)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_back_hover"]
-bg_color = Color(0.25, 0.2, 0.1, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.984314, 0.74902, 0.141176, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[node name="SettingsPanel" type="CanvasLayer"]
-layer = 10
+[node name="SettingsPanel" type="Control" unique_id=318903404]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_script")
+metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1163348598]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+offset_transform_enabled = true
 color = Color(0, 0, 0, 0.5)
-
-[node name="CenterContainer" type="CenterContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(420, 0)
-theme_override_styles/panel = SubResource("StyleBoxFlat_settings_panel")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/separation = 18
-
-[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.984314, 0.74902, 0.141176, 1)
-theme_override_font_sizes/font_size = 26
-text = "⚙ Settings"
-horizontal_alignment = 1
-
-[node name="Separator" type="HSeparator" parent="CenterContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="MasterRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="MasterLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/MasterRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(130, 0)
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_font_sizes/font_size = 15
-text = "Master Volume"
-
-[node name="MasterSlider" type="HSlider" parent="CenterContainer/PanelContainer/VBoxContainer/MasterRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-custom_minimum_size = Vector2(180, 0)
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-value = 100.0
-
-[node name="MasterValue" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/MasterRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(50, 0)
-theme_override_colors/font_color = Color(0.984314, 0.74902, 0.141176, 1)
-theme_override_font_sizes/font_size = 14
-text = "100%"
-horizontal_alignment = 2
-
-[node name="MusicRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="MusicLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/MusicRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(130, 0)
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_font_sizes/font_size = 15
-text = "Music Volume"
-
-[node name="MusicSlider" type="HSlider" parent="CenterContainer/PanelContainer/VBoxContainer/MusicRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-custom_minimum_size = Vector2(180, 0)
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-value = 100.0
-
-[node name="MusicValue" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/MusicRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(50, 0)
-theme_override_colors/font_color = Color(0.984314, 0.74902, 0.141176, 1)
-theme_override_font_sizes/font_size = 14
-text = "100%"
-horizontal_alignment = 2
-
-[node name="SFXRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="SFXLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/SFXRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(130, 0)
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_font_sizes/font_size = 15
-text = "SFX Volume"
-
-[node name="SFXSlider" type="HSlider" parent="CenterContainer/PanelContainer/VBoxContainer/SFXRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-custom_minimum_size = Vector2(180, 0)
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-value = 100.0
-
-[node name="SFXValue" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer/SFXRow"]
-layout_mode = 2
-custom_minimum_size = Vector2(50, 0)
-theme_override_colors/font_color = Color(0.984314, 0.74902, 0.141176, 1)
-theme_override_font_sizes/font_size = 14
-text = "100%"
-horizontal_alignment = 2
-
-[node name="Spacer" type="Control" parent="CenterContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 8)
-
-[node name="BackButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 44)
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_back_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_back_hover")
-text = "← Back"
+metadata/_edit_use_anchors_ = true

@@ -4,6 +4,7 @@ extends CharacterBody2D
 enum State { PATROL, CHASE }
 var current_state: State = State.PATROL
 var target_player: Node2D = null
+
 @export var chase_speed: float = 130.0
 @export var speed: float = 100.0
 @export var patrol_distance: float = 150.0
@@ -23,6 +24,9 @@ var is_dead: bool = false
 func _ready() -> void:
 	start_x = global_position.x
 	current_health = max_health
+	
+	if ledge_check:
+		ledge_check.add_exception(self) # Prevent self-collision lock
 	
 	if hitbox_area and not hitbox_area.body_entered.is_connected(_on_hitbox_body_entered):
 		hitbox_area.body_entered.connect(_on_hitbox_body_entered)
@@ -44,18 +48,19 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-
 func _process_patrol(_delta: float) -> void:
 	var hit_patrol_limit = (global_position.x >= start_x + patrol_distance and direction == 1) or \
 						   (global_position.x <= start_x - patrol_distance and direction == -1)
 	
-	var lost_ledge = ledge_check and is_on_floor() and not ledge_check.is_colliding()
+	# Check ledge only if ledge_check node exists
+	var lost_ledge = false
+	if ledge_check and is_on_floor():
+		lost_ledge = not ledge_check.is_colliding()
 
 	if is_on_wall() or lost_ledge or hit_patrol_limit:
 		_flip_direction()
 
 	velocity.x = direction * speed
-
 
 func _process_chase(_delta: float) -> void:
 	if not is_instance_valid(target_player):
@@ -64,43 +69,39 @@ func _process_chase(_delta: float) -> void:
 
 	var diff_x = target_player.global_position.x - global_position.x
 	
-	# Deadzone check
 	if abs(diff_x) < 8.0:
 		velocity.x = 0.0
-		print("CHASE: Stopped by Deadzone (diff_x: ", diff_x, ")")
 		return
 
 	var desired_direction = 1 if diff_x > 0 else -1
-	
 	if desired_direction != direction:
 		direction = desired_direction
 		_update_facing_direction()
 
 	var wall_hit = is_on_wall()
-	# TEMPORARY: Ignore lost_ledge to test basic movement logic
-	var lost_ledge = false 
+	var lost_ledge = false
+	if ledge_check and is_on_floor():
+		lost_ledge = not ledge_check.is_colliding()
 
-	if wall_hit:
+	if wall_hit or lost_ledge:
 		velocity.x = 0.0
-		print("CHASE: Stopped by Wall")
 	else:
 		velocity.x = direction * chase_speed
-		print("CHASE: Moving! dir: ", direction, " | vel.x: ", velocity.x)
 
 func _flip_direction() -> void:
 	direction *= -1
 	_update_facing_direction()
 
-
 func _update_facing_direction() -> void:
 	if ledge_check:
-		ledge_check.position.x = abs(ledge_check.position.x) * direction
+		ledge_check.position.x = abs(ledge_check.position.x if ledge_check.position.x != 0 else 12.0) * direction
+		ledge_check.force_raycast_update()
 
 	if animated_sprite:
 		animated_sprite.flip_h = direction < 0
 	elif sprite and "flip_h" in sprite:
 		sprite.flip_h = direction < 0
-# --- Damage Dealing ---
+
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if is_dead:
 		return
@@ -108,14 +109,12 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		if body.has_method("take_damage"):
 			body.take_damage(damage)
 
-# --- Receiving Damage ---
 func take_damage(amount: int) -> void:
 	if is_dead:
 		return
 		
 	current_health -= amount
 	
-	# Damage Flash Visual Feedback
 	var target_visual = animated_sprite if animated_sprite else sprite
 	if target_visual:
 		var tween = create_tween()
@@ -129,7 +128,6 @@ func die() -> void:
 	is_dead = true
 	velocity = Vector2.ZERO
 	
-	# Disable physics layers cleanly
 	set_collision_layer_value(3, false)
 	set_collision_mask_value(1, false)
 	

@@ -1,0 +1,122 @@
+{
+  "archer_attack": {
+    "file": "archer_attack.png",
+    "frame_count": 6,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 768,
+    "sheet_height": 128,
+    "godot_hframes": 6,
+    "godot_vframes": 1
+  },
+  "archer_hurt": {
+    "file": "archer_hurt.png",
+    "frame_count": 2,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 256,
+    "sheet_height": 128,
+    "godot_hframes": 2,
+    "godot_vframes": 1
+  },
+  "archer_idle": {
+    "file": "archer_idle.png",
+    "frame_count": 4,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 512,
+    "sheet_height": 128,
+    "godot_hframes": 4,
+    "godot_vframes": 1
+  },
+  "archer_walk": {
+    "file": "archer_walk.png",
+    "frame_count": 6,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 768,
+    "sheet_height": 128,
+    "godot_hframes": 6,
+    "godot_vframes": 1
+  },
+  "maratha_attack": {
+    "file": "maratha_attack.png",
+    "frame_count": 6,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 768,
+    "sheet_height": 128,
+    "godot_hframes": 6,
+    "godot_vframes": 1
+  },
+  "maratha_hurt": {
+    "file": "maratha_hurt.png",
+    "frame_count": 2,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 256,
+    "sheet_height": 128,
+    "godot_hframes": 2,
+    "godot_vframes": 1
+  },
+  "maratha_idle": {
+    "file": "maratha_idle.png",
+    "frame_count": 4,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 512,
+    "sheet_height": 128,
+    "godot_hframes": 4,
+    "godot_vframes": 1
+  },
+  "maratha_walk": {
+    "file": "maratha_walk.png",
+    "frame_count": 6,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 768,
+    "sheet_height": 128,
+    "godot_hframes": 6,
+    "godot_vframes": 1
+  },
+  "mughal_attack": {
+    "file": "mughal_attack.png",
+    "frame_count": 6,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 768,
+    "sheet_height": 128,
+    "godot_hframes": 6,
+    "godot_vframes": 1
+  },
+  "mughal_hurt": {
+    "file": "mughal_hurt.png",
+    "frame_count": 2,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 256,
+    "sheet_height": 128,
+    "godot_hframes": 2,
+    "godot_vframes": 1
+  },
+  "mughal_idle": {
+    "file": "mughal_idle.png",
+    "frame_count": 4,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 512,
+    "sheet_height": 128,
+    "godot_hframes": 4,
+    "godot_vframes": 1
+  },
+  "mughal_walk": {
+    "file": "mughal_walk.png",
+    "frame_count": 6,
+    "frame_width": 128,
+    "frame_height": 128,
+    "sheet_width": 768,
+    "sheet_height": 128,
+    "godot_hframes": 6,
+    "godot_vframes": 1
+  }
+}

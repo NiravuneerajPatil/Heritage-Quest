@@ -2,8 +2,11 @@ extends Node
 
 # Heritage Quest - Global Game Manager (Autoload)
 
+@warning_ignore("unused_signal")
 signal artifact_collected(artifact_name: String, artifact_type: String)
+@warning_ignore("unused_signal")
 signal level_completed(level_name: String)
+@warning_ignore("unused_signal")
 signal player_died
 
 var score: int = 0
@@ -22,7 +25,8 @@ var sfx_volume: float = 1.0
 
 # --- Current level tracking ---
 var current_level_path: String = ""
-var current_level_index: int = 0
+var current_level_index: int = 1
+var current_level_name: String = ""
 
 # --- Outfit / Attire System ---
 var outfit_pieces: Dictionary = {
@@ -146,6 +150,12 @@ func get_level_collected_artifacts(level_idx: int) -> Array:
 				data["id"] = art_id
 				result.append(data)
 	return result
+
+func complete_level(title: String) -> void:
+	level_completed.emit(title)
+
+func notify_player_died() -> void:
+	player_died.emit()
 
 func reset_progress() -> void:
 	score = 0

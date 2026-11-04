@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c8luqqi401h0b"]
+[gd_scene format=3 uid="uid://bqfcmt7255fiw"]
 
 [ext_resource type="Texture2D" uid="uid://cuah518cc1a14" path="res://assets/images/backgrounds/main_menu.jpg" id="1_o5qli"]
 
@@ -6,56 +6,86 @@
 resource_name = "main_menu"
 script/source = "extends Control
 
-@onready var main_buttons: VBoxContainer = $MarginContainer/VBoxContainer/MainButtons
-@onready var settings_panel: PanelContainer = $SettingsPanel
+# Heritage Quest - Main Menu & Settings Overlay Script
 
-# Node references for buttons (adjust paths if your scene hierarchy differs)
+@onready var settings_layer: CanvasLayer = $SettingsLayer
+@onready var color_rect: ColorRect = $SettingsLayer/ColorRect
+@onready var center_container: CenterContainer = $SettingsLayer/ColorRect/CenterContainer
+@onready var panel_container: PanelContainer = $SettingsLayer/ColorRect/CenterContainer/PanelContainer
+
 @onready var play_button: Button = $MarginContainer/VBoxContainer/MainButtons/PlayButton
 @onready var settings_button: Button = $MarginContainer/VBoxContainer/MainButtons/SettingsButton
 @onready var quit_button: Button = $MarginContainer/VBoxContainer/MainButtons/QuitButton
-@onready var back_button: Button = %BackButton if has_node(\"%BackButton\") else $SettingsPanel/VBoxContainer/BackButton
+@onready var back_button: Button = $SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/BackButton
+
+@onready var master_slider: HSlider = $SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/HSlider if has_node(\"SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/HBoxContainer/HSlider\") else null
+@onready var music_slider: HSlider = $SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/HBoxContainer2/HSlider if has_node(\"SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/HBoxContainer2/HSlider\") else null
 
 func _ready() -> void:
-	if settings_panel:
-		settings_panel.hide()
+	# Hide Settings panel by default
+	if settings_layer:
+		settings_layer.hide()
 
-	# Connect button signals programmatically
-	if play_button and not play_button.pressed.is_connected(_on_play_button_pressed):
-		play_button.pressed.connect(_on_play_button_pressed)
-	if settings_button and not settings_button.pressed.is_connected(_on_settings_button_pressed):
-		settings_button.pressed.connect(_on_settings_button_pressed)
-	if quit_button and not quit_button.pressed.is_connected(_on_quit_button_pressed):
-		quit_button.pressed.connect(_on_quit_button_pressed)
-	if back_button and not back_button.pressed.is_connected(_on_back_from_settings_pressed):
-		back_button.pressed.connect(_on_back_from_settings_pressed)
+	# Enforce layout presets at runtime
+	if color_rect:
+		color_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		color_rect.color = Color(0.05, 0.05, 0.08, 0.85)
 
-func _on_play_button_pressed() -> void:
-	print(\"Play button pressed. Loading level...\")
-	var err = get_tree().change_scene_to_file(\"res://scenes/levels/Level1_RedFort.tscn\")
-	if err != OK:
-		push_error(\"Failed to load scene at 'res://scenes/levels/Level1_RedFort.tscn'. Error code: %d\" % err)
+	if center_container:
+		center_container.use_top_left = false
+		center_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
-func _on_settings_button_pressed() -> void:
-	main_buttons.hide()
-	settings_panel.show()
+	_apply_heritage_style()
 
-func _on_quit_button_pressed() -> void:
+	# Connect Main Menu Buttons
+	if play_button: play_button.pressed.connect(_on_play_pressed)
+	if settings_button: settings_button.pressed.connect(_on_settings_pressed)
+	if quit_button: quit_button.pressed.connect(_on_quit_pressed)
+	if back_button: back_button.pressed.connect(_on_back_pressed)
+
+	# Audio GameManager Sync
+	var gm = get_node_or_null(\"/root/GameManager\")
+	if gm:
+		if master_slider: _setup_slider(master_slider, gm.master_volume, func(v): gm.set_master_volume(v))
+		if music_slider: _setup_slider(music_slider, gm.music_volume, func(v): gm.set_music_volume(v))
+
+func _apply_heritage_style() -> void:
+	if panel_container:
+		panel_container.custom_minimum_size = Vector2(550, 360)
+		var style = StyleBoxFlat.new()
+		style.bg_color = Color(0.12, 0.11, 0.15, 0.96) # Dark Slate
+		style.border_color = Color(0.88, 0.65, 0.18, 1.0) # Gold Accent
+		style.set_border_width_all(3)
+		style.set_corner_radius_all(10)
+		style.content_margin_left = 30
+		style.content_margin_right = 30
+		style.content_margin_top = 20
+		style.content_margin_bottom = 20
+		panel_container.add_theme_stylebox_override(\"panel\", style)
+
+func _setup_slider(slider: HSlider, val: float, callback: Callable) -> void:
+	slider.min_value = 0.0
+	slider.max_value = 1.0
+	slider.step = 0.05
+	slider.value = val
+	slider.custom_minimum_size.x = 220
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if not slider.value_changed.is_connected(callback):
+		slider.value_changed.connect(callback)
+
+func _on_play_pressed() -> void:
+	get_tree().change_scene_to_file(\"res://scenes/levels/Level1_RedFort.tscn\")
+
+func _on_settings_pressed() -> void:
+	if settings_layer:
+		settings_layer.show()
+
+func _on_back_pressed() -> void:
+	if settings_layer:
+		settings_layer.hide()
+
+func _on_quit_pressed() -> void:
 	get_tree().quit()
-
-func _on_back_from_settings_pressed() -> void:
-	settings_panel.hide()
-	main_buttons.show()
-
-# Audio Volume Adjusters using AudioServer
-func _on_music_slider_value_changed(value: float) -> void:
-	var bus_idx = AudioServer.get_bus_index(\"Music\")
-	if bus_idx != -1:
-		AudioServer.set_bus_volume_db(bus_idx, linear_to_db(value))
-
-func _on_sfx_slider_value_changed(value: float) -> void:
-	var bus_idx = AudioServer.get_bus_index(\"SFX\")
-	if bus_idx != -1:
-		AudioServer.set_bus_volume_db(bus_idx, linear_to_db(value))
 "
 
 [sub_resource type="LabelSettings" id="LabelSettings_htemk"]
@@ -128,44 +158,62 @@ layout_mode = 2
 theme = SubResource("Theme_14cdr")
 text = "Exit"
 
-[node name="SettingsPanel" type="PanelContainer" parent="." unique_id=853413957]
+[node name="SettingsLayer" type="CanvasLayer" parent="." unique_id=1890506685]
 visible = false
-layout_mode = 0
-offset_left = -21.0
-offset_top = 54.0
-offset_right = 290.0
-offset_bottom = 166.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel" unique_id=893495845]
+[node name="ColorRect" type="ColorRect" parent="SettingsLayer" unique_id=1476658721]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="CenterContainer" type="CenterContainer" parent="SettingsLayer/ColorRect" unique_id=309704703]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsLayer/ColorRect/CenterContainer" unique_id=1105911651]
+custom_minimum_size = Vector2(550, 360)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer" unique_id=1734201457]
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer" unique_id=893495845]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer" unique_id=1734201457]
 layout_mode = 2
 text = "Settings"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/VBoxContainer" unique_id=1651146693]
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer" unique_id=1651146693]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainer" unique_id=1791933268]
+[node name="Label" type="Label" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1791933268]
 layout_mode = 2
 text = "Music Volume"
 
-[node name="HSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainer" unique_id=65895007]
+[node name="HSlider" type="HSlider" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=65895007]
 layout_mode = 2
+size_flags_horizontal = 3
 value = 50.0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/VBoxContainer" unique_id=1748474912]
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer" unique_id=1748474912]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainer2" unique_id=1019125779]
+[node name="Label" type="Label" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/HBoxContainer2" unique_id=1019125779]
 layout_mode = 2
 text = "SFX Volume"
 
-[node name="HSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainer2" unique_id=1884481116]
+[node name="HSlider" type="HSlider" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer/HBoxContainer2" unique_id=1884481116]
 layout_mode = 2
+size_flags_horizontal = 3
 value = 50.0
 
-[node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer" unique_id=1016221103]
+[node name="BackButton" type="Button" parent="SettingsLayer/ColorRect/CenterContainer/PanelContainer/VBoxContainer" unique_id=1016221103]
 layout_mode = 2
 text = "Back"
 

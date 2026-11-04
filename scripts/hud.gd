@@ -12,22 +12,42 @@ extends CanvasLayer
 var level_name: String = "Heritage Site"
 
 func _ready() -> void:
+	# Automatically detect active scene name if level_name hasn't been set externally
+	_detect_current_level_name()
+	
 	var gm = get_node_or_null("/root/GameManager")
 	if gm:
 		gm.artifact_collected.connect(_on_artifact_collected)
 		gm.level_completed.connect(_on_level_completed)
-		update_display()
-	
-	if banner:
-		banner.modulate.a = 0.0
-		# Show initial level banner
-		show_banner(level_name)
+		# Update level_name from GameManager if it tracks current level title
+		if "current_level_name" in gm and gm.current_level_name != "":
+			level_name = gm.current_level_name
+
+	# Apply the level name to the HUD label and trigger the intro banner
+	set_level_name(level_name)
+	update_display()
 
 func set_level_name(new_name: String) -> void:
 	level_name = new_name
 	if level_label:
 		level_label.text = new_name
-	show_banner(new_name)
+	if banner:
+		banner.modulate.a = 0.0
+		show_banner(new_name)
+
+func _detect_current_level_name() -> void:
+	var current_scene = get_tree().current_scene
+	if current_scene:
+		# Format scene node name (e.g., "Level1_RedFort" -> "Level 1: Red Fort")
+		var s_name = current_scene.name
+		if s_name.begins_with("Level1"):
+			level_name = "Level 1: Red Fort"
+		elif s_name.begins_with("Level2"):
+			level_name = "Level 2: Hampi"
+		elif s_name.begins_with("Level3"):
+			level_name = "Level 3: Raigad"
+		else:
+			level_name = s_name.capitalize()
 
 func show_banner(text: String) -> void:
 	if not banner: return
@@ -43,6 +63,9 @@ func update_display() -> void:
 	var gm = get_node_or_null("/root/GameManager")
 	if not gm: return
 	
+	if level_label:
+		level_label.text = level_name
+		
 	if score_label:
 		score_label.text = "SCORE: %05d" % gm.score
 		
@@ -86,7 +109,7 @@ func update_health(current: int, max_hp: int) -> void:
 		heart.add_theme_font_size_override("font_size", 18)
 		health_container.add_child(heart)
 
-func _on_artifact_collected(item_name: String, item_type: String) -> void:
+func _on_artifact_collected(item_name: String, _item_type: String) -> void:
 	update_display()
 	show_banner("COLLECTED: " + item_name.to_upper())
 

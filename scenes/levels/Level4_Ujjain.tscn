@@ -1,0 +1,219 @@
+[gd_scene format=3 uid="uid://blbt6llvam5rd"]
+
+[ext_resource type="PackedScene" uid="uid://bdkofe4c6sbgh" path="res://scenes/components/HUD.tscn" id="1_xjjkd"]
+[ext_resource type="Texture2D" uid="uid://fxtdwlibr8uc" path="res://assets/images/backgrounds/raigad/sky.png" id="2_in4r0"]
+[ext_resource type="Texture2D" uid="uid://bj636qmelq7wo" path="res://assets/images/backgrounds/raigad/cliffs_far.png" id="3_5yt4j"]
+[ext_resource type="Texture2D" uid="uid://bggv3hk8m42ga" path="res://assets/images/backgrounds/ujjain/Gemini_Generated_Image_sfyow3sfyow3sfyo-removebg-preview.png" id="4_05rn4"]
+[ext_resource type="PackedScene" path="res://scenes/components/Artifact.tscn" id="5_cw3qn"]
+[ext_resource type="PackedScene" uid="uid://b07rgoecok7kd" path="res://scenes/components/LevelExit.tscn" id="6_pxeno"]
+[ext_resource type="PackedScene" uid="uid://ouap034qyyy3" path="res://scenes/Player.tscn" id="7_lwdum"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground_a"]
+size = Vector2(700, 108)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground_b"]
+size = Vector2(1000, 108)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p1"]
+size = Vector2(180, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p2"]
+size = Vector2(160, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3"]
+size = Vector2(220, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4"]
+size = Vector2(180, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_l"]
+size = Vector2(40, 800)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_r"]
+size = Vector2(40, 800)
+
+[node name="Level4_Ujjain" type="Node2D" unique_id=1549101371]
+
+[node name="HUD" parent="." unique_id=389501074 instance=ExtResource("1_xjjkd")]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=1741084402]
+
+[node name="SkyLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=424634328]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="SkySprite" type="Sprite2D" parent="ParallaxBackground/SkyLayer" unique_id=1135532207]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_in4r0")
+centered = false
+
+[node name="FarLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1189426467]
+motion_scale = Vector2(0.3, 0.2)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="FarSprite" type="Sprite2D" parent="ParallaxBackground/FarLayer" unique_id=1271277439]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_5yt4j")
+centered = false
+
+[node name="MidLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=527121709]
+motion_scale = Vector2(0.6, 0.4)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="MidSprite" type="Sprite2D" parent="ParallaxBackground/MidLayer" unique_id=836307347]
+texture_filter = 1
+scale = Vector2(1.7297295, 1.4373333)
+texture = ExtResource("4_05rn4")
+centered = false
+
+[node name="Platforms" type="Node2D" parent="." unique_id=1891032086]
+
+[node name="GroundA" type="StaticBody2D" parent="Platforms" unique_id=1805413066]
+position = Vector2(0, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/GroundA" unique_id=437666683]
+position = Vector2(350, 54)
+shape = SubResource("RectangleShape2D_ground_a")
+
+[node name="BasaltGround" type="ColorRect" parent="Platforms/GroundA" unique_id=1143117722]
+offset_right = 700.0
+offset_bottom = 108.0
+color = Color(0.41568628, 0.30588236, 0.13725491, 1)
+
+[node name="GroundB" type="StaticBody2D" parent="Platforms" unique_id=1378675161]
+position = Vector2(950, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/GroundB" unique_id=213102623]
+position = Vector2(500, 54)
+shape = SubResource("RectangleShape2D_ground_b")
+
+[node name="BasaltGround" type="ColorRect" parent="Platforms/GroundB" unique_id=1588612354]
+offset_right = 1354.0
+offset_bottom = 108.0
+color = Color(0.41568628, 0.30588236, 0.13725491, 1)
+
+[node name="Platform1_Watchtower" type="StaticBody2D" parent="Platforms" unique_id=1485107449]
+position = Vector2(320, 420)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform1_Watchtower" unique_id=1403159619]
+position = Vector2(90, 10)
+shape = SubResource("RectangleShape2D_p1")
+
+[node name="Visual" type="ColorRect" parent="Platforms/Platform1_Watchtower" unique_id=1979591391]
+offset_right = 180.0
+offset_bottom = 20.0
+color = Color(0.41568628, 0.30588236, 0.13725491, 1)
+
+[node name="SaffronBanner" type="ColorRect" parent="Platforms/Platform1_Watchtower" unique_id=1797824700]
+offset_right = 180.0
+offset_bottom = 4.0
+color = Color(0.976471, 0.45098, 0.0862745, 1)
+
+[node name="Platform2_ChasmCross" type="StaticBody2D" parent="Platforms" unique_id=1950787238]
+position = Vector2(680, 380)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform2_ChasmCross" unique_id=259158957]
+position = Vector2(80, 10)
+shape = SubResource("RectangleShape2D_p2")
+
+[node name="Visual" type="ColorRect" parent="Platforms/Platform2_ChasmCross" unique_id=1960143908]
+offset_right = 160.0
+offset_bottom = 20.0
+color = Color(0.41568628, 0.30588236, 0.13725491, 1)
+
+[node name="SaffronBanner" type="ColorRect" parent="Platforms/Platform2_ChasmCross" unique_id=1428163692]
+offset_right = 160.0
+offset_bottom = 4.0
+color = Color(0.976471, 0.45098, 0.0862745, 1)
+
+[node name="Platform3_MahaDarwaja" type="StaticBody2D" parent="Platforms" unique_id=1848354459]
+position = Vector2(980, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform3_MahaDarwaja" unique_id=1794586651]
+position = Vector2(110, 10)
+shape = SubResource("RectangleShape2D_p3")
+
+[node name="Visual" type="ColorRect" parent="Platforms/Platform3_MahaDarwaja" unique_id=578223070]
+offset_right = 220.0
+offset_bottom = 20.0
+color = Color(0.41568628, 0.30588236, 0.13725491, 1)
+
+[node name="SaffronBanner" type="ColorRect" parent="Platforms/Platform3_MahaDarwaja" unique_id=1427898367]
+offset_right = 220.0
+offset_bottom = 4.0
+color = Color(0.976471, 0.45098, 0.0862745, 1)
+
+[node name="Platform4_Nagarkhana" type="StaticBody2D" parent="Platforms" unique_id=762270960]
+position = Vector2(1350, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Platform4_Nagarkhana" unique_id=1109897677]
+position = Vector2(90, 10)
+shape = SubResource("RectangleShape2D_p4")
+
+[node name="Visual" type="ColorRect" parent="Platforms/Platform4_Nagarkhana" unique_id=1463106131]
+offset_right = 180.0
+offset_bottom = 20.0
+color = Color(0.41568628, 0.30588236, 0.13725491, 1)
+
+[node name="SaffronBanner" type="ColorRect" parent="Platforms/Platform4_Nagarkhana" unique_id=1254270164]
+offset_right = 180.0
+offset_bottom = 4.0
+color = Color(0.976471, 0.45098, 0.0862745, 1)
+
+[node name="LeftBoundary" type="StaticBody2D" parent="Platforms" unique_id=191461381]
+position = Vector2(-20, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/LeftBoundary" unique_id=1165966774]
+shape = SubResource("RectangleShape2D_wall_l")
+
+[node name="RightBoundary" type="StaticBody2D" parent="Platforms" unique_id=276637113]
+position = Vector2(2000, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/RightBoundary" unique_id=319846659]
+shape = SubResource("RectangleShape2D_wall_r")
+
+[node name="Collectibles" type="Node2D" parent="." unique_id=1707441649]
+
+[node name="Artifact_Vambrace" parent="Collectibles" unique_id=1128870410 instance=ExtResource("5_cw3qn")]
+position = Vector2(410, 370)
+item_id = "powerup_vambrace"
+item_display_name = "Mavala Steel Vambrace (+Attack)"
+points = 400
+
+[node name="Artifact_Shivrai1" parent="Collectibles" unique_id=770990013 instance=ExtResource("5_cw3qn")]
+position = Vector2(760, 330)
+item_id = "artifact_shivrai_coin"
+item_display_name = "Gold Shivrai Coin"
+points = 250
+
+[node name="Artifact_Shivrai2" parent="Collectibles" unique_id=1296257248 instance=ExtResource("5_cw3qn")]
+position = Vector2(1090, 210)
+item_id = "artifact_shivrai_coin"
+item_display_name = "Gold Shivrai Coin"
+points = 250
+
+[node name="Artifact_AshokaSeal" parent="Collectibles" unique_id=315783580 instance=ExtResource("5_cw3qn")]
+position = Vector2(1440, 310)
+item_id = "artifact_ashoka_seal"
+item_display_name = "Royal Seal of Sovereignty"
+points = 1000
+
+[node name="LevelExit" parent="." unique_id=1085265297 instance=ExtResource("6_pxeno")]
+position = Vector2(1850, 540)
+next_level_path = "res://scenes/levels/Level1_RedFort.tscn"
+level_title = "Ujjain Cleared! All Heritage Sites Liberated!"
+level_index = 4
+
+[node name="Player" parent="." unique_id=1510553521 instance=ExtResource("7_lwdum")]
+position = Vector2(100, 480)
+scale = Vector2(1.5, 1.5)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=675622150]
+position = Vector2(0, -40)
+limit_left = 0
+limit_top = 0
+limit_right = 2000
+limit_bottom = 648
+position_smoothing_enabled = true

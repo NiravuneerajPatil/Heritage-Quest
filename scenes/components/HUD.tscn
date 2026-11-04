@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bdkofe4c6sbgh"]
 
-[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud_script"]
+[ext_resource type="Script" uid="uid://5xhsqxsyatnd" path="res://scripts/hud.gd" id="1_hud_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
 bg_color = Color(0.0588235, 0.0901961, 0.164706, 0.85)
@@ -18,10 +18,10 @@ expand_margin_top = 8.0
 expand_margin_right = 16.0
 expand_margin_bottom = 8.0
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" unique_id=1958576873]
 script = ExtResource("1_hud_script")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1161922335]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,14 +32,14 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=408244717]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="TopRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="TopRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1867537096]
 layout_mode = 2
 
-[node name="LevelLabel" type="Label" parent="MarginContainer/VBoxContainer/TopRow"]
+[node name="LevelLabel" type="Label" parent="MarginContainer/VBoxContainer/TopRow" unique_id=55667827]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.984314, 0.74902, 0.141176, 1)
@@ -49,33 +49,33 @@ theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 15
 text = "LEVEL 1: LAL QILA (RED FORT)"
 
-[node name="HealthContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopRow"]
+[node name="HealthContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopRow" unique_id=531088085]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/TopRow"]
+[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer/TopRow" unique_id=442629843]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.972549, 0.980392, 0.988235, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_font_sizes/font_size = 14
 text = "SCORE: 00000"
 
-[node name="BottomRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="BottomRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=672943898]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="ArtifactsLabel" type="Label" parent="MarginContainer/VBoxContainer/BottomRow"]
+[node name="ArtifactsLabel" type="Label" parent="MarginContainer/VBoxContainer/BottomRow" unique_id=1054927610]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
 theme_override_font_sizes/font_size = 12
 text = "ARTIFACTS: 0"
 
-[node name="PowerupsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/BottomRow"]
+[node name="PowerupsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/BottomRow" unique_id=869579390]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="BannerContainer" type="PanelContainer" parent="."]
+[node name="BannerContainer" type="PanelContainer" parent="." unique_id=1875924578]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -89,7 +89,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_banner")
 
-[node name="BannerLabel" type="Label" parent="BannerContainer"]
+[node name="BannerLabel" type="Label" parent="BannerContainer" unique_id=1379885276]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.984314, 0.74902, 0.141176, 1)
 theme_override_font_sizes/font_size = 16
